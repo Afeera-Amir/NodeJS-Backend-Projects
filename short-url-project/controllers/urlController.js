@@ -12,7 +12,7 @@ const handleCreateNewURL = async (req, res) => {
         redirectUrl,
         visitHistory: []
     })
-    return res.json({id: shortID})
+    return res.render('home', {id: shortID})
 }
 
 const handleGetURLclicks = async (req, res) => {
