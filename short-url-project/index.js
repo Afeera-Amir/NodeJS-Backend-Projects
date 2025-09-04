@@ -4,7 +4,7 @@ const path = require('path')
 const urlRoute = require("./routes/url.route");
 const staticRoute = require('./routes/static.route')
 const userRoute = require('./routes/user.route')
-const { restrictToLoggedinUserOnly, checkAuth } = require("./middleware/auth");
+const { checkForAuthentication, restrictTo } = require("./middleware/auth");
 const { connectToDB } = require("./db/connection");
 const URL = require("./models/Url");
 const PORT = 8000;
@@ -20,9 +20,10 @@ app.set('views', path.resolve('./views'))
 app.use(express.json());
 app.use(express.urlencoded({extended: false}))
 app.use(cookieParser())
+app.use(checkForAuthentication)
 
-app.use("/url",restrictToLoggedinUserOnly, urlRoute);
-app.use('/',checkAuth, staticRoute)
+app.use("/url", restrictTo(['NORMAL', 'ADMIN']), urlRoute);
+app.use('/', staticRoute)
 app.use('/user', userRoute)
 
 // Redirecting to original url by shortID

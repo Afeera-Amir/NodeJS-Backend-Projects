@@ -16,7 +16,7 @@ const handleLoginUser = async (req, res) => {
     if(!user) return res.render('login', {error: 'User is not found!'})
     
     const token = setUser(user)
-    res.cookie('uid', token)
+    res.cookie('token', token)
     return res.redirect('/')
 }
 
